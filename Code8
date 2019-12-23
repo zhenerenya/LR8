@@ -1,0 +1,165 @@
+#include <list>
+#include <iostream>
+#include <functional>
+#include <string>
+#include <vector>
+#include <conio.h>
+using namespace std;
+
+struct Worker
+{
+	string name;
+	int sal;
+};
+
+bool compare(Worker& a1, Worker& a2)
+{
+	return a1.name < a2.name;
+}
+
+void print(list<Worker>& l)
+{
+	for (auto p : l)
+	{
+		cout << "Name: " << p.name << " Solar: " << p.sal << endl;
+	}
+
+}
+
+int NameSearch(list<Worker>&l)
+{
+	string a;
+	cout << "type name: ";
+	cin >> a;
+	int n = 0;
+	list<Worker>::iterator beg;
+	for (beg = l.begin(); beg != l.end(); beg++)
+	{
+		if (beg->name == a) n++;
+	}
+	return n;
+}
+int IntSearch(list<Worker>& l)
+{
+	int a;
+	cout << "type salary: " << endl;
+	cin >> a;
+	int n = 0;
+	list<Worker>::iterator beg;
+	for (beg = l.begin(); beg != l.end(); beg++)
+	{
+		if (beg->sal == a) n++;
+	}
+	return n;
+}
+
+void AddString(list<Worker>& l1, list<Worker>& l2)
+{
+	cout << "Type name: " << endl;
+	string a;
+	cin >> a;
+	list<Worker>::iterator beg;
+	for (beg = l1.begin(); beg != l1.end(); beg++)
+	{
+		if (beg->name == a) l2.push_back(*beg);
+	}
+}
+
+void AddInt(list<Worker>& l1, list<Worker>& l2)
+{
+	cout << "Type Salary: " << endl;
+	int a;
+	cin >> a;
+	list<Worker>::iterator beg;
+	for (beg = l1.begin(); beg != l1.end(); beg++)
+	{
+		if (beg->sal == a) l2.push_back(*beg);
+	}
+}
+
+
+int main()
+{
+	list<Worker>List;
+	Worker s;
+	char stop;
+	//ввод данных в лист
+	do
+	{
+		
+		cout << "\nName: ";
+		cin>>s.name;
+		cout << "Salary: ";
+		cin >> s.sal;
+		List.push_back(s);
+		cout << "For break type 's' or else any key.";
+		stop = _getch();
+		
+		
+	} while (stop != 's');
+	cout << endl << endl << endl << endl << endl << endl << endl;
+	//переменные остановки
+	char f, d=0;
+	//сортировка
+	do
+	{
+		int a;
+		cout << "Type number:" << endl << "1 - sorting by string field" << endl <<
+			"2 - sorting by int field" << endl;
+		a=_getch();
+		switch (a)
+		{
+		case '1': { List.sort([](Worker& a1, Worker& a2) {return a1.name < a2.name; }); 
+			print(List); } break;//используем лямбда выражение
+		case '2': {List.sort([](Worker& a1, Worker& a2) {return a1.sal < a2.sal; });
+			print(List); } break;
+		default: {cout << "Error. Try again" << endl; d = 'a'; }
+		}
+		if (d == 'a') { f = d; }
+		else 
+		{
+			cout << "For finishing press 'f' else another button." << endl;
+			f = _getch();
+		}
+	} while (f!='f');
+	cout << endl << endl << endl << endl << endl << endl << endl;
+	//поиск крличества элементов с значением определенного поля
+	do {
+		cout << "What are we looking for? If this is string type 's'. If this is int type 'i'." << endl;
+		d = _getch();
+		switch (d)
+		{
+		case 's': cout << NameSearch(List)<<endl; break;
+		case 'i': cout << IntSearch(List) << endl; break;
+		default: {cout << "Error. Try again" << endl; d = 'a'; break; }
+		}
+		if (d == 'a') { f = d; }
+		else
+		{
+			cout << "For finishing press 'f' else another button." << endl;
+			f = _getch();
+		}
+	} while (f != 'f');
+	cout << endl << endl << endl << endl << endl << endl << endl;
+
+	//создаем новый список с заданным полем
+	list<Worker>Listochek;
+	do
+	{
+		cout << "If you want creat string type 's', If you want creat i type 'i'" << endl;
+		d = _getch();
+		switch (d)
+		{
+		case 's': AddString(List, Listochek); print(Listochek); break;
+		case 'i': AddInt(List, Listochek); print(Listochek); break;
+		default: cout << "Error. Try again" << endl; d = 'a'; break;
+		}
+		if (d == 'a') { f = d; }
+		else
+		{
+			cout << "For finishing press 'f' else another button." << endl;
+			f = _getch();
+		}
+	} while (f != 'f');
+}
+
